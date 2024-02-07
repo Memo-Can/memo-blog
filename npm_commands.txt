@@ -1,0 +1,32 @@
+momo-blog altında api ve client adlı iki klasör bulunur
+api: node js kullnarak servislerin yazılacağı yer
+client: react ve front ent pagelerin bulunduğu yerdir
+
+react app oluşturmak içi memo-blog altında aşağıdaki komut çalıştırılır
+npm init react-app client
+
+sayfa yönlendirilmesi için memo-blog altında
+npm i react-router-dom
+
+api servisleri için express api klasörü altına kurulmalı
+npm install express   
+
+test servisini çalışması için api altında
+node test.js
+
+nodemon node.js üzerinde anlık değişikliklerin sunucuya otomatik olarka 
+görünmesi için kullanılan bir modüldür. Api altında çalıştırılmalı
+nodemon test.js
+
+Node.js temelli geliştirilen bir sunucunun API’larını kullanabilmek için varsayılan ‘Access-Control-Allow-Origin’ güvenliğini aşabilmemiz gerekmektedir.
+api altına
+node i cors
+
+mongo libraray için api altına
+npm i mongoose 
+
+db kullanıcı powwordlarını encrypt olarak tutmak gerekmektedir. Api altında
+npm install bcryptjs
+
+yetkilendirme için json web token. apia altında
+npm i jsonwebtoken
