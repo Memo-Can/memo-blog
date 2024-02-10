@@ -30,3 +30,6 @@ npm install bcryptjs
 
 yetkilendirme için json web token. apia altında
 npm i jsonwebtoken
+
+cookie içeirisndekileir okuyabilmek için cookie-parser kullanılmalı api altında
+npm cookie-parser

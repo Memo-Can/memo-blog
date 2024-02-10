@@ -6,11 +6,12 @@ const bcrypt = require('bcryptjs');
 const app=express();
 const jwt = require('jsonwebtoken');
 const salt =bcrypt.genSaltSync(10); 
-// const setting = require('../node_modules/setting.json');
 const setting = require('../client/src/setting.json');
+const cookieParser = require('cookie-parser');
 
 app.use(cors({credentials:true, origin:setting.urlClient}));
 app.use(express.json());
+app.use(cookieParser());
 
 database.connect(setting.connectionDb);
 
@@ -32,9 +33,6 @@ app.post('/login', async (req,res)=>{
     const{userName,password} = req.body;
     const user = await User.findOne({userName});
 
-    console.log(user);
-
-   
     if(!user){
         res.status(400).json('User can not found.');
     }
@@ -49,6 +47,18 @@ app.post('/login', async (req,res)=>{
     else{
         res.status(400).json('Wrong user or pass.');
     }
+});
+
+app.get('/profile', (req,res )=>{
+    const{token}= req.cookies;
+    jwt.verify(token,setting.secret,{},(err,info)=>{
+        if(err) throw err;
+        res.json(info);
+    });
+});
+
+app.post('/logout', (req,res)=>{
+  res.cookie('token','').json('ok');
 });
 
 app.listen(4000);

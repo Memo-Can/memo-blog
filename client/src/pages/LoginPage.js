@@ -21,7 +21,6 @@ export default function LoginPage(){
         else{
             alert('wrong credentials');
         }
-        
     }
 
     if(redirect){
