@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useContext,useEffect, useState } from 'react';
 import {Link} from 'react-router-dom';
 import setting from './setting.json';
-//import { useEffect } from 'react';
+import { UserContext} from './UserContext';
 
 export default function Header(){
-  const [userName,setUserName] =useState(null);
+  const {setUserInfo, userInfo}= useContext(UserContext);
   useEffect(()=>{
     fetch(setting.urlApi+'/profile',{
       credentials:'include',
     }).then(response=>{
       response.json().then(userInfo=>{
-        setUserName(userInfo.userName);
+        setUserInfo(userInfo);
       });
     });
   },[]);
@@ -20,18 +20,20 @@ export default function Header(){
       credentials:'include',
       method:'POST',
     });
-    setUserName(null);
+    setUserInfo(null);
   }
 
+  const userName = userInfo?.userName;
+  // console.log(userName);
   return(
     <header>
-        <Link to='/' className='logo'>Memo Blog</Link>
+        <Link to="/" className="logo">Memo Blog</Link>
         <nav>
           {userName && (
             <>
               <Link to="/create">Create new post</Link>
-         
               <Link onClick={logout}>Logout</Link>
+              {/* <a onClick={logout}>Logout</a> */}
             </>
           )}
           {!userName &&(

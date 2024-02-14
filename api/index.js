@@ -41,7 +41,11 @@ app.post('/login', async (req,res)=>{
     if(result){
         jwt.sign({userName,id:user._id},setting.secret,{},(err,token)=>{
             if(err) throw err;
-            res.cookie('token',token).json('ok');
+            // res.cookie('token',token).json('ok');
+            res.cookie('token',token).json({
+                id: user._id,
+                userName,
+            });
         });
     }
     else{
@@ -49,7 +53,7 @@ app.post('/login', async (req,res)=>{
     }
 });
 
-app.get('/profile', (req,res )=>{
+app.get('/profile', (req, res )=>{
     const{token}= req.cookies;
     jwt.verify(token,setting.secret,{},(err,info)=>{
         if(err) throw err;
