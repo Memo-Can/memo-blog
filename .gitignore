@@ -24,4 +24,7 @@ setting.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
+api/uploads
+api/uploads/4bbf8111fe4931c2ffacc9e53f36b376
+api/uploads/5ea025f9e45a0d7672d58223230b7f03.png
+api/uploads/701b734cde30f7a29cb39fe26152fbfb.png
