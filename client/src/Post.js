@@ -1,15 +1,20 @@
-export default function post(){
-    return( <div className="post">
-    <div className="image">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSK1J4pZj4Wwaxow6Dx5IPtRppiqLPD3DenxMZ4qtiC3Q&s" alt=""/>
-    </div>
-    <div className="texts">
-        <h2>Its a flower</h2>
-        <p className="info">
-           <a href="" className="author">memo</a> 
-            <time>2024-01-01</time>
-        </p>
-        <p className="summary"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco</p>
-    </div>
-    </div>);
+import {format} from 'date-fns';
+import setting from './setting.json'
+
+export default function Post({title,summary,cover,createdAt,author}){
+    return(
+        <div className="post">
+            <div className="image">
+                <img src={setting.urlApi+'/'+cover} alt=""/>
+            </div>
+            <div className="texts">
+                <h2>{title}</h2>
+                <p className="info">
+                    <a className="author">{author==null?'':author.userName}</a> 
+                    <time>{format(new Date(createdAt),'yyyy-MM-dd')}</time>
+                </p>
+                <p className="summary"> {summary}</p>
+            </div>
+        </div>
+    );
 };

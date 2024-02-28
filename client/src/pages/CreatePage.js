@@ -1,6 +1,6 @@
-import { func } from "prop-types";
 import { useState } from "react";
 import ReactQuill from "react-quill";
+import {Navigate} from "react-router-dom";
 import 'react-quill/dist/quill.snow.css';
 import Setting from '../setting.json';
 
@@ -39,7 +39,7 @@ export default function CreatePage (){
         const response = await fetch(Setting.urlApi+"/post",{
             method:'POST',
             body: data,
-
+            credentials:'include',
         });
         //console.log(await response.json());
         if(response.ok){

@@ -11,11 +11,12 @@ const setting = require('../client/src/setting.json');
 const cookieParser = require('cookie-parser');
 const multer = require('multer');
 const uploadMiddleware = multer({dest: 'uploads/'});
-const fs = require('fs')
+const fs = require('fs');
 
 app.use(cors({credentials:true, origin:setting.urlClient}));
 app.use(express.json());
 app.use(cookieParser());
+app.use('/uploads', express.static(__dirname+'/uploads'));
 
 database.connect(setting.connectionDb);
 
@@ -29,6 +30,7 @@ app.post('/register', async(req,res)=>{
         res.json(user);
     }
     catch(e){
+        console.log(e);
         res.status(400).json(e);
     }
 });
@@ -69,24 +71,39 @@ app.post('/logout', (req,res)=>{
     res.cookie('token','').json('ok');
 });
 
-app.post('/post',uploadMiddleware.single('file'),  async(req,res)=>{
-    const {originalname,path}= req.file;
-    debugger;
-    console.log(originalname);
-    const parts = originalname.split(".");
-    const ext = parts[parts.length -1];
-    const newPath =path+'.'+ext
-    fs.renameSync(path,newPath);
+app.post('/post',uploadMiddleware.single('file'),  async(req, res)=>{
+    console.log(req.file);
+    let newPath='';
+    if(req.file){
+        const {originalname,path}= req.file;
+        // console.log(originalname);
+        const parts = originalname.split(".");
+        const ext = parts[parts.length -1];
+        newPath =path+'.'+ext
+        fs.renameSync(path,newPath);
+    }
 
-    const{title, summary, content}=req.body;
-    const postDoc= await Post.create({
-        title,
-        summary,
-        content,
-        cover: newPath,
+    const{token}= req.cookies;
+    jwt.verify(token,setting.secret,{}, async(err, info)=>{
+        if(err) throw err;
+        const{title, summary, content}=req.body;
+        const postDoc= await Post.create({
+            title,
+            summary,
+            content,
+            author: info.id,
+            cover: newPath,
+        });
+        res.json(postDoc);
     });
+});
 
-    res.json(postDoc);
+app.get('/post', async (req, res)=>{
+    res.json(await Post.find()
+        .populate('author',['userName'])
+        .sort({createdAt:-1})
+        .limit(10)
+    );
 });
 
 app.listen(4000);

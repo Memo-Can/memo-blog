@@ -1,11 +1,10 @@
 const express = require('express');
 const app=express();
-const settings = require('./settings.json');
+const settings = require('../client/src/setting.json');
 
 
 app.get('/test', function (req, res) {
-    debugger;
-
+  
     console.log(settings.connectionMongo);
     res.send('Hello World 23')
 });
