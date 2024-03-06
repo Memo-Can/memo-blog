@@ -43,3 +43,5 @@ npm i multer
 
 datetime formatlarını düzenlemek için client altında aşağıdaki command yazılır
 npm i date-fns
+
+https://heroicons.com/ adresinden iconlar svg olarak kullanılabilir

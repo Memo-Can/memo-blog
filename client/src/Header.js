@@ -6,12 +6,14 @@ import { UserContext} from './UserContext';
 export default function Header(){
   const {setUserInfo, userInfo}= useContext(UserContext);
   useEffect(()=>{
-    fetch(setting.urlApi+'/profile',{
+      fetch(`${setting.urlApi}/profile` ,{
       credentials:'include',
     }).then(response=>{
+      if(response.userInfo){
       response.json().then(userInfo=>{
         setUserInfo(userInfo);
       });
+    }
     });
   },[]);
 
@@ -24,7 +26,7 @@ export default function Header(){
   }
 
   const userName = userInfo?.userName;
-  // console.log(userName);
+
   return(
     <header>
         <Link to="/" className="logo">Memo Blog</Link>
@@ -33,7 +35,6 @@ export default function Header(){
             <>
               <Link to="/create">Create new post</Link>
               <Link onClick={logout}>Logout</Link>
-              {/* <a onClick={logout}>Logout</a> */}
             </>
           )}
           {!userName &&(
@@ -42,7 +43,6 @@ export default function Header(){
               <Link to='/register'>Register</Link>
             </>
           )}
-         
         </nav>
     </header>
   );
