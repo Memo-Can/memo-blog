@@ -45,3 +45,6 @@ datetime formatlarını düzenlemek için client altında aşağıdaki command y
 npm i date-fns
 
 https://heroicons.com/ adresinden iconlar svg olarak kullanılabilir
+
+comobox compopnenti için client altına
+npm install react-select

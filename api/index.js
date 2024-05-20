@@ -3,6 +3,7 @@ const cors = require('cors');
 const database = require('mongoose');
 const User = require('./models/User');
 const Post = require('./models/Post');
+const Category = require('./models/Category');
 const bcrypt = require('bcryptjs');
 const app=express();
 const jwt = require('jsonwebtoken');
@@ -144,6 +145,10 @@ app.get('/post/:id', async(req, res)=>{
     const {id} = req.params;
     const postDoc =await Post.findById(id).populate('author',['userName']);
     res.json(postDoc);
+});
+
+app.get('/category', async(req,res)=>{
+    res.json(await Category.find().select('title').sort({order:1}));
 });
 
 app.listen(4000);

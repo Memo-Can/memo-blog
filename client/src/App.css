@@ -12,6 +12,7 @@ img{
 }
 main{
   padding: 10px;
+  /* max-width: 960px; */
   max-width: 960px;
   margin: 0 auto;
 }
@@ -35,7 +36,34 @@ header nav{
   gap: 24px;
 }
 
+
+div.categoryIndex{
+float: left;
+width: 20%;
+
+/* margin-top: 0px; */
+/* text-align: right; */
+}
+
+
+fieldset{
+  border-width: 0.5px;
+
+}
+fieldset legend{
+  color: black;
+  font-weight: bold;
+}
+
+div.postIndex{
+  padding-top: 10px;
+  float: left;
+  width: 80%;
+}
+
 div.post{
+  padding-top: 10px;
+  margin: 5px;
   display: grid;
   grid-template-columns: 1fr;
   gap: 20px;
@@ -84,6 +112,17 @@ input{
   border-radius: 5px;
   background-color: #fff;
 }
+
+/* select {
+  width: 100%;
+  display: block;
+  margin-bottom: 5px;
+  padding: 3px 5px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+} */
+
 button{
   cursor: pointer;
   width: 100%;

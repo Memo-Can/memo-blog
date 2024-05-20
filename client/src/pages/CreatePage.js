@@ -1,14 +1,26 @@
-import { useState } from "react";
-import {Navigate} from "react-router-dom";
-import Setting from '../setting.json';
-import Editor from "../Editor";
+import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
+import Setting from "../setting.json";
+import Editor from "../components/Editor";
+import ComboBox from "../components/ComboBox";
 
 export default function CreatePage (){
-    const[title, setTitle] = useState('');
-    const[summary,setSummary] = useState('');
-    const[content, setContent]= useState('');
-    const[files, setFiles]= useState('');
-    const[redirect, setRedirect]= useState(false);
+    const [title, setTitle] = useState('');
+    const [summary,setSummary] = useState('');
+    const [content, setContent]= useState('');
+    const [files, setFiles]= useState('');
+    const [redirect, setRedirect]= useState(false);
+    const [selectedOption, setSelectedOption] = useState(null);
+    const [categories, setCategories]= useState([]);
+
+     useEffect(()=>{
+        fetch(Setting.urlApi +'/category').then(response=>{
+            response.json().then(categories=>{
+                setCategories(categories);
+            });
+        });
+    },[]);
+
 
     async function createNewPost(ev){
         const data= new FormData();
@@ -23,7 +35,6 @@ export default function CreatePage (){
             body: data,
             credentials:'include',
         });
-        //console.log(await response.json());
         if(response.ok){
             setRedirect(true);
         }
@@ -32,6 +43,13 @@ export default function CreatePage (){
     if(redirect){
        return <Navigate to={'/'}/>
     }
+
+    
+
+    const handleSelectChange = (selectedOption) => {
+      setSelectedOption(selectedOption);
+    };
+
    
     return(
         <form onSubmit={createNewPost}>
@@ -39,6 +57,13 @@ export default function CreatePage (){
                 placeholder={'Title'}  
                 value={title}
                 onChange={ev=> setTitle(ev.target.value)}  />
+            <ComboBox 
+                // className="combobox"
+                options={categories} 
+                onChange={handleSelectChange} 
+                isSearchable
+            />
+            {selectedOption && <p>Selected Option: {selectedOption._id}</p>}
             <input type="summary" 
                 placeholder={'Summary'} 
                 value={summary}

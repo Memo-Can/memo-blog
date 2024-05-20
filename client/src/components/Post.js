@@ -1,5 +1,5 @@
 import {format} from 'date-fns';
-import setting from './setting.json'
+import setting from '../setting.json'
 import { Link } from 'react-router-dom';
 
 export default function Post({_id,title,summary,cover,createdAt,author}){

@@ -1,7 +1,7 @@
 import { useContext,useEffect, useState } from 'react';
 import {Link} from 'react-router-dom';
 import setting from './setting.json';
-import { UserContext} from './UserContext';
+import { UserContext} from './components/UserContext';
 
 export default function Header(){
   const {setUserInfo, userInfo}= useContext(UserContext);

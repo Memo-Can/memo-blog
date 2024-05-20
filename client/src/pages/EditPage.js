@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import Setting from '../setting.json';
-import Editor from "../Editor";
+import Editor from "../components/Editor";
+// import Select from "../components/Select";
 
 export default function EditPost(){
     const[title, setTitle] = useState('');
@@ -53,6 +54,7 @@ export default function EditPost(){
                 placeholder={'Title'}  
                 value={title}
                 onChange={ev=> setTitle(ev.target.value)}  />
+            {/* <Select></Select> */}
             <input type="summary" 
                 placeholder={'Summary'} 
                 value={summary}

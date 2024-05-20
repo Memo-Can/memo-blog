@@ -1,13 +1,13 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import Layout from './Layout';
+import Layout from './components/Layout';
 import IndexPage from './pages/IndexPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import CreatePage from './pages/CreatePage';
 import PostPage from './pages/PostPage';
 import EditPage from './pages/EditPage';
-import { UserContextProvider } from './UserContext';
+import { UserContextProvider } from './components/UserContext';
 
 function App() {
   return (
