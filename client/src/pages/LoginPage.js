@@ -3,8 +3,8 @@ import {Navigate} from "react-router-dom";
 import { UserContext } from "../components/UserContext";
 
 export default function LoginPage(){
-    const [userName, setUserName]= useState('');
-    const [password, setPassword]= useState('');
+    const [userName, setUserName]= useState('Admin');
+    const [password, setPassword]= useState("!'Memoblog.305617");
     const [redirect, setRedirect]= useState(false);
     const {setUserInfo} = useContext(UserContext);
     const setting = require('../setting.json');

@@ -20,8 +20,6 @@ export default function Category(){
                     <h5>{category.title}</h5>
                 </Link>
             ))}
-       
         </>
-       
     );
 }

@@ -2,30 +2,32 @@ import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import Setting from "../setting.json";
 import Editor from "../components/Editor";
-import ComboBox from "../components/ComboBox";
+// import ComboBox from "../components/ComboBox";
 
 export default function CreatePage (){
     const [title, setTitle] = useState('');
-    const [summary,setSummary] = useState('');
+    const [summary, setSummary] = useState('');
+    const [tag, setTag] = useState('');
     const [content, setContent]= useState('');
     const [files, setFiles]= useState('');
     const [redirect, setRedirect]= useState(false);
-    const [selectedOption, setSelectedOption] = useState(null);
-    const [categories, setCategories]= useState([]);
+    // const [selectedOption, setSelectedOption] = useState(null);
+     //const [categories, setCategories]= useState([]);
 
      useEffect(()=>{
-        fetch(Setting.urlApi +'/category').then(response=>{
-            response.json().then(categories=>{
-                setCategories(categories);
-            });
-        });
+        // fetch(Setting.urlApi +'/category').then(response=>{
+        //     response.json().then(categories=>{
+        //         setCategories(categories);
+        //     });
+        // });
     },[]);
 
 
     async function createNewPost(ev){
-        const data= new FormData();
+        const data = new FormData();
         data.set('title',title);
         data.set('summary',summary);
+        data.set('tag',tag);
         data.set('content',content);
         data.set('file', files[0]);
         ev.preventDefault();
@@ -43,27 +45,17 @@ export default function CreatePage (){
     if(redirect){
        return <Navigate to={'/'}/>
     }
-
-    
-
-    const handleSelectChange = (selectedOption) => {
-      setSelectedOption(selectedOption);
-    };
-
-   
+		
     return(
         <form onSubmit={createNewPost}>
             <input type="title" 
                 placeholder={'Title'}  
                 value={title}
                 onChange={ev=> setTitle(ev.target.value)}  />
-            <ComboBox 
-                // className="combobox"
-                options={categories} 
-                onChange={handleSelectChange} 
-                isSearchable
-            />
-            {selectedOption && <p>Selected Option: {selectedOption._id}</p>}
+             <input type="tag"
+                placeholder={'Tags'}
+                value={tag} 
+                onChange={ev=> setTag(ev.target.value)} />
             <input type="summary" 
                 placeholder={'Summary'} 
                 value={summary}

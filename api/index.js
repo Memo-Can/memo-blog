@@ -3,7 +3,8 @@ const cors = require('cors');
 const database = require('mongoose');
 const User = require('./models/User');
 const Post = require('./models/Post');
-const Category = require('./models/Category');
+const Tag = require('./models/Tag');
+//onst Category = require('./models/Category');
 const bcrypt = require('bcryptjs');
 const app=express();
 const jwt = require('jsonwebtoken');
@@ -13,6 +14,7 @@ const cookieParser = require('cookie-parser');
 const multer = require('multer');
 const uploadMiddleware = multer({dest: 'uploads/'});
 const fs = require('fs');
+const { Console } = require('console');
 
 app.use(cors({credentials:true, origin:setting.urlClient}));
 app.use(express.json());
@@ -85,17 +87,20 @@ app.post('/post',uploadMiddleware.single('file'),  async(req, res)=>{
         fs.renameSync(path,newPath);
     }
 
+
     const{token}= req.cookies;
     jwt.verify(token,setting.secret,{}, async(err, info)=>{
         if(err) throw err;
-        const{title, summary, content}=req.body;
+        const{title, summary, tag, content}=req.body;
         const postDoc= await Post.create({
             title,
             summary,
+            tag,
             content,
             author: info.id,
-            cover: newPath,
+            cover: newPath, 
         });
+        TagCreator(tag);
         res.json(postDoc);
     });
 });
@@ -113,20 +118,21 @@ app.put('/post',uploadMiddleware.single('file'), async (req,res) => {
     const {token} = req.cookies;
     jwt.verify(token, setting.secret, {}, async (err,info) => {
       if (err) throw err;
-      const {id,title,summary,content} = req.body;
+      const {id,title,tag,summary,content} = req.body;
       const postDoc = await Post.findById(id);
       const isAuthor = JSON.stringify(postDoc.author) === JSON.stringify(info.id);
       if (!isAuthor) {
         return res.status(400).json('you are not the author');
       }
-
         await Post.findByIdAndUpdate(id,{
             title,
             summary,
+            tag,
             content,
             cover: newPath ? newPath : postDoc.cover,
         });
             
+        TagCreator(tag);
   
       res.json(postDoc);
     });
@@ -134,12 +140,29 @@ app.put('/post',uploadMiddleware.single('file'), async (req,res) => {
   
 
 app.get('/post', async (req, res)=>{
-    res.json(await Post.find()
-        .populate('author',['userName'])
+    res.json(await Post.find().select('title summary createdAt')
+				.populate('author',['userName'])
         .sort({createdAt:-1})
         .limit(10)
     );
 });
+
+app.get('/search/:search', async (req, res)=>{
+  
+	if(req.params.search){
+		const regex = new RegExp(req.params.search, 'i'); // 'i' makes the search case-insensitive
+    const query = {
+      $or: [
+        { title: { $regex: regex } }
+      ]
+    };
+		res.json(await Post.find(query).select('title summary createdAt')
+				.populate('author',['userName'])
+				.sort({createdAt:-1})
+			);
+	}
+});
+
 
 app.get('/post/:id', async(req, res)=>{
     const {id} = req.params;
@@ -147,8 +170,15 @@ app.get('/post/:id', async(req, res)=>{
     res.json(postDoc);
 });
 
-app.get('/category', async(req,res)=>{
-    res.json(await Category.find().select('title').sort({order:1}));
-});
-
+function TagCreator(tag){
+    if(tag){
+        let tags = tag.replace(/\s/g, '').split(',');
+        tags.forEach(async tag => {
+            const result = await Tag.findOne({title: tag.toLowerCase()});
+            if(!result){
+                await Tag.create({ title: tag.toLowerCase()});
+            }
+        }); 
+    }
+}
 app.listen(4000);

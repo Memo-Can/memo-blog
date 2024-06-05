@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import Setting from '../setting.json';
 import Editor from "../components/Editor";
-// import Select from "../components/Select";
 
 export default function EditPost(){
     const[title, setTitle] = useState('');
-    const[summary,setSummary] = useState('');
+    const[summary, setSummary] = useState('');
+    const[tag, setTag] = useState('');
     const[content, setContent]= useState('');
     const[files, setFiles]= useState('');
     const[cover, setCover]= useState('');
@@ -18,6 +18,7 @@ export default function EditPost(){
             .then(response=>{
                 response.json().then(postInfo=>{
                     setTitle(postInfo.title);
+                    setTag(postInfo.tag);
                     setContent(postInfo.content);
                     setSummary(postInfo.summary);
                 });
@@ -29,6 +30,7 @@ export default function EditPost(){
         const data = new FormData();
         data.set('title', title);
         data.set('summary', summary);
+        data.set('tag', tag);
         data.set('content', content);
         data.set('id', id);
         if (files?.[0]) {
@@ -54,7 +56,10 @@ export default function EditPost(){
                 placeholder={'Title'}  
                 value={title}
                 onChange={ev=> setTitle(ev.target.value)}  />
-            {/* <Select></Select> */}
+            <input type="tag"
+                placeholder={'Tags'}
+                value={tag} 
+                onChange={ev=> setTag(ev.target.value)} />
             <input type="summary" 
                 placeholder={'Summary'} 
                 value={summary}

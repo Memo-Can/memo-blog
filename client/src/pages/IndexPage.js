@@ -1,36 +1,52 @@
-import Category from '../components/Category.js';
 import Post from '../components/Post';
 import { useEffect, useState } from 'react';
 
 export default function IndexPage(){
-    const [posts, setPosts]= useState([]);
+	const [posts, setPosts]= useState([]);
+		
+	useEffect(()=>{
+		const setting = require('../setting.json');
+		let url=setting.urlApi+'/post';
 
-    useEffect(()=>{
-        const setting = require('../setting.json');
+		fetch(url).then(response=>{
+				response.json().then(posts=>{
+					setPosts(posts);
+				});
+		});
+	},[]);
 
-        fetch(setting.urlApi +'/post').then(response=>{
-            response.json().then(posts=>{
-                setPosts(posts);
-            });
-        });
-    
-    },[]);
+	const handleKeyDown = (event) => {
 
-    return(
-        <>
-            <div className='postIndex' >
-            <fieldset>
-                        {posts.length > 0 && posts.map(post=> (
-                            <Post key={post._id} {...post}/>
-                        ))}
-                </fieldset>
-            </div>
-            <div className='categoryIndex'>
-                <fieldset>
-                        <legend>Categories</legend>
-                        <Category/>
-                </fieldset>
-            </div>
-        </>
-    );
+		if (event.key === 'Enter') {
+			const setting = require('../setting.json');
+			var url=setting.urlApi+'/post';
+			if(event.target.value){
+				url=setting.urlApi+'/search/'+event.target.value;
+			}
+			
+			fetch(url).then(response=>{
+					response.json().then(posts=>{
+						setPosts(posts);
+					});
+			});
+
+			
+
+		}
+	};
+
+	return(
+		<>
+			<div  >
+				<input className='searchBar' type='text' placeholder='Search' onKeyDown={handleKeyDown} />
+			</div>
+			<div className='postIndex'>
+				
+				{
+					// posts.length > 0 ? (posts.map(post=>( <Post key={post._id} {...post}/>))): (alert('Post Not Found!'))
+					posts.length > 0 && posts.map(post=>( <Post key={post._id} {...post}/>))
+				}
+			</div>
+		</>
+	);
 }

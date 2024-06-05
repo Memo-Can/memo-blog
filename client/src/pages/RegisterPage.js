@@ -12,7 +12,6 @@ export default function RegisterPage(){
             headers:{'Content-Type':'application/json'},
         });
         if(response.status===200){
-
             alert("Registration successful.");
         }
         else 
