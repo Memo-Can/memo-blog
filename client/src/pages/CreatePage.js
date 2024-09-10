@@ -2,25 +2,25 @@ import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import Setting from "../setting.json";
 import Editor from "../components/Editor";
-// import ComboBox from "../components/ComboBox";
+
 
 export default function CreatePage (){
-    const [title, setTitle] = useState('');
-    const [summary, setSummary] = useState('');
-    const [tag, setTag] = useState('');
-    const [content, setContent]= useState('');
-    const [files, setFiles]= useState('');
-    const [redirect, setRedirect]= useState(false);
-    // const [selectedOption, setSelectedOption] = useState(null);
-     //const [categories, setCategories]= useState([]);
+	const [title, setTitle] = useState('');
+	const [summary, setSummary] = useState('');
+	const [tag, setTag] = useState('');
+	const [content, setContent]= useState('');
+	const [files, setFiles]= useState('');
+	const [redirect, setRedirect]= useState(false);
+	// const [selectedOption, setSelectedOption] = useState(null);
+		//const [categories, setCategories]= useState([]);
 
-     useEffect(()=>{
-        // fetch(Setting.urlApi +'/category').then(response=>{
-        //     response.json().then(categories=>{
-        //         setCategories(categories);
-        //     });
-        // });
-    },[]);
+		useEffect(()=>{
+			// fetch(Setting.urlApi +'/category').then(response=>{
+			//     response.json().then(categories=>{
+			//         setCategories(categories);
+			//     });
+			// });
+	},[]);
 
 
     async function createNewPost(ev){

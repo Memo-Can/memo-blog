@@ -9,15 +9,18 @@ import PostPage from './pages/PostPage';
 import EditPage from './pages/EditPage';
 import { UserContextProvider } from './components/UserContext';
 
+
 function App() {
   return (
     <UserContextProvider>
       <Routes>
         <Route path="/" element={<Layout/>}>
           <Route index element={<IndexPage/>}/>
+					<Route path="/post/" element={<IndexPage/>}/>
+					{/* <Route path="/post/:search" element={<IndexPage/>}/> */}
           <Route path="/create" element={<CreatePage/>}/>
           <Route path="/post/:id" element={<PostPage/>}/>
-          <Route path="/edit/:id" element={<EditPage/>}/>
+          <Route path="/edit/:id" element={<EditPage/>}/> 
         </Route>
         <Route path="/login" element={<LoginPage/>}/>
         <Route path="/register" element={<RegisterPage/>}/>

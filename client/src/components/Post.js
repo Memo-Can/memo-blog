@@ -5,11 +5,6 @@ import React, { useState, useEffect } from 'react';
 
 export default function Post({_id,title,summary,cover,createdAt,author}){
 
-	// useEffect(()=>{
-	// 	if(!_id)
-	// 		return(<h1>Post Not Found!</h1>)
-	// },[]);
-
 	return(
 		<div className="post" >
 			<div className="texts">

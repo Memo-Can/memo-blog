@@ -56,7 +56,7 @@ div.categoryIndex{
 	width: 20%;
 }
 
-div.postIndex{
+div.post-index{
   /* padding-left: 40px;
   padding-right: 40px; */
 	padding: 40px;
@@ -146,7 +146,12 @@ form.login h1, form.register h1{
   text-align: center;
 }
 
+div.post-page{
+	padding: 20px;
+}
+
 div.post-page div.image{
+
   max-height:300px;
   display: flex;
   overflow:hidden;
@@ -200,4 +205,70 @@ div.post-page a.edit-btn{
 }
 a svg{
   height:20px;
+}
+
+.breadcrumb {
+  list-style: none;
+  display: flex;
+}
+
+.breadcrumb li {
+  margin-right: 0.5rem;
+}
+
+.breadcrumb li a {
+  text-decoration: none;
+  color: blue;
+}
+
+.breadcrumb li a:hover {
+  text-decoration: underline;
+}
+
+
+.navbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	/* background-color: #333; */
+	padding: 10px 20px;
+}
+
+.nav-left .nav-link {
+	color: white;
+	text-decoration: none;
+	margin-right: 20px;
+	padding: 10px;
+	transition: background-color 0.3s;
+}
+
+.nav-left .nav-link:hover {
+	background-color: #575757;
+}
+
+.nav-right {
+	display: flex;
+	align-items: center;
+}
+
+.search-bar {
+	padding: 5px;
+	border: none;
+	border-radius: 3px;
+	width: 150px;
+}
+
+.search-button {
+	width: 200px;
+	padding: 5px 10px;
+	margin-left: 5px;
+	border: none;
+	background-color: #575757;
+	color: white;
+	border-radius: 3px;
+	cursor: pointer;
+}
+
+.search-button:hover {
+	background-color: #444;
 }

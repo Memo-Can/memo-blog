@@ -1,52 +1,63 @@
+import React,{ useContext,useEffect, useState,useRef  } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
+import {UserContext} from "../components/UserContext";
 import Post from '../components/Post';
-import { useEffect, useState } from 'react';
 
 export default function IndexPage(){
+	const {globalData} = useContext(UserContext);
 	const [posts, setPosts]= useState([]);
-		
+	const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+	
+	
 	useEffect(()=>{
-		const setting = require('../setting.json');
-		let url=setting.urlApi+'/post';
+		const fetchPosts =  async () => {
 
-		fetch(url).then(response=>{
-				response.json().then(posts=>{
-					setPosts(posts);
-				});
-		});
-	},[]);
+			let url =`${require('../setting.json').urlApi}/post?page=${page}`;
+		
+			if(globalData.search)url+=`&search=${globalData.search}`;
 
-	const handleKeyDown = (event) => {
-
-		if (event.key === 'Enter') {
-			const setting = require('../setting.json');
-			var url=setting.urlApi+'/post';
-			if(event.target.value){
-				url=setting.urlApi+'/search/'+event.target.value;
-			}
-			
-			fetch(url).then(response=>{
-					response.json().then(posts=>{
-						setPosts(posts);
+			await fetch(url)
+			.then(response=>{
+				response.json().then(data=>{
+						setPosts(data.posts);
+						setTotalPages(data.totalPages);
 					});
-			});
+				});
+			};
+		fetchPosts();
+	},[page,globalData]);
 
-			
 
-		}
-	};
+	const handleNext = () => {
+    if (page < totalPages) {
+      setPage(page + 1);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  };
+
 
 	return(
-		<>
-			<div  >
-				<input className='searchBar' type='text' placeholder='Search' onKeyDown={handleKeyDown} />
-			</div>
-			<div className='postIndex'>
-				
+		<> 
+			<div className='post-index'>
 				{
-					// posts.length > 0 ? (posts.map(post=>( <Post key={post._id} {...post}/>))): (alert('Post Not Found!'))
-					posts.length > 0 && posts.map(post=>( <Post key={post._id} {...post}/>))
+					 posts.length > 0 && posts.map(post=>( <Post key={post._id} {...post}/>))
 				}
 			</div>
+			<div>
+        <button onClick={handlePrevious} disabled={page === 1}>
+          Previous
+        </button>
+        <span>Page {page} of {totalPages}</span>
+        <button onClick={handleNext} disabled={page === totalPages}>
+          Next
+        </button>
+      </div>
 		</>
 	);
 }

@@ -51,23 +51,23 @@ export default function EditPost(){
     }
 
     return(
-        <form onSubmit={updatePost}>
-            <input type="title" 
-                placeholder={'Title'}  
-                value={title}
-                onChange={ev=> setTitle(ev.target.value)}  />
-            <input type="tag"
-                placeholder={'Tags'}
-                value={tag} 
-                onChange={ev=> setTag(ev.target.value)} />
-            <input type="summary" 
-                placeholder={'Summary'} 
-                value={summary}
-                onChange={ev=> setSummary(ev.target.value)}/>
-            <input type="file"
-                onChange={ev=> setFiles(ev.target.files)} />
-            <Editor value={content} onChange={setContent}></Editor>
-            <button style={{marginTop:'5px'}}>Update Post</button>
-        </form>
-    );
+			<form onSubmit={updatePost}>
+				<input type="title" 
+					placeholder={'Title'}  
+					value={title}
+					onChange={ev=> setTitle(ev.target.value)}  />
+				<input type="tag"
+					placeholder={'Tags'}
+					value={tag} 
+					onChange={ev=> setTag(ev.target.value)} />
+				<input type="summary" 
+					placeholder={'Summary'} 
+					value={summary}
+					onChange={ev=> setSummary(ev.target.value)}/>
+				<input type="file"
+					onChange={ev=> setFiles(ev.target.files)} />
+				<Editor value={content} onChange={setContent}></Editor>
+				<button style={{marginTop:'5px'}}>Update Post</button>
+			</form>
+	);
 }
